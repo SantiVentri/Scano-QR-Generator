@@ -14,7 +14,10 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Free QR Code Generator | By Santino Ventrice",
+  title: {
+    default: "Scano | Generate free and forever QR codes in seconds.",
+    template: "%s | Scano QR Code Generator"
+  },
   description: "Free QR code generation. Add your logo, custom palette and more. Manage all your codes in one place. Create your free account to get started.",
 };
 
