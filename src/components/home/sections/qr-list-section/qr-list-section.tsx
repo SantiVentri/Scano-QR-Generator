@@ -15,6 +15,7 @@ interface QRProps {
 export default function QRListSection() {
     const supabase = createClient();
     const [codes, setCodes] = useState<QRProps[]>([]);
+    const [search, setSearch] = useState("");
 
     const fetchCodes = async () => {
         const { data: { user }, error: userError } = await supabase.auth.getUser();
@@ -28,6 +29,7 @@ export default function QRListSection() {
             .from("qr_codes")
             .select()
             .eq("user_id", user.id)
+            .ilike("title", `%${search}%`)
             .limit(9)
 
         if (!error) {
@@ -45,7 +47,12 @@ export default function QRListSection() {
         <section className={styles.section}>
             <div className={styles.header}>
                 <h1>QR Codes Generated</h1>
-                <input type="search" placeholder="Search" />
+                <input
+                    type="search"
+                    placeholder="Search"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
             </div>
 
             {codes.length == 0 ? (
