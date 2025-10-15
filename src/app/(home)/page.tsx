@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation'
-
 import { createClient } from '@/utils/supabase/server'
-import SignOutButton from '@/components/auth/signout-button/signout-button';
+import QRListSection from '@/components/home/sections/qr-list-section/qr-list-section';
 
 export default async function Home() {
   const supabase = await createClient()
@@ -12,9 +11,12 @@ export default async function Home() {
   }
 
   return (
-    <>
-      <p>Hello {data.user.email}</p>
-      <SignOutButton />
-    </>
+    <main style={{
+      display: 'flex',
+      padding: 60,
+      gap: 60
+    }}>
+      <QRListSection />
+    </main>
   )
 }

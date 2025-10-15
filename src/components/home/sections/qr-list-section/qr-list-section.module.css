@@ -1,0 +1,28 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 20px;
+    padding: 30px;
+    width: 100%;
+    gap: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header input[type="search"] {
+    border: 2px solid gray;
+    border-radius: 8px;
+    padding: 10px 14px;
+    width: 240px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
