@@ -56,3 +56,12 @@
     border-radius: 6px;
     padding: 8px;
 }
+
+@media (max-width: 780px) {
+    .card img {
+        display: none;
+    }
+    .container {
+        gap: 20px;
+    }
+}

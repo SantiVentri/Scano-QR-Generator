@@ -1,5 +1,6 @@
-import { redirect } from 'next/navigation'
-import { createClient } from '@/utils/supabase/server'
+import styles from './page.module.css';
+import { redirect } from 'next/navigation';
+import { createClient } from '@/utils/supabase/server';
 import QRListSection from '@/components/home/sections/qr-list-section/qr-list-section';
 
 export default async function Home() {
@@ -11,11 +12,7 @@ export default async function Home() {
   }
 
   return (
-    <main style={{
-      display: 'flex',
-      padding: 60,
-      gap: 60
-    }}>
+    <main className={styles.main}>
       <QRListSection />
     </main>
   )
