@@ -1,3 +1,4 @@
+import Footer from "@/components/ui/footer/footer";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,6 +13,7 @@ export default function HomeLayout({
     return (
         <>
             {children}
+            <Footer />
         </>
     )
 }
