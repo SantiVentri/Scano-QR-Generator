@@ -4,6 +4,7 @@ import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import Alert from '../alert/alert';
 import { createClient } from '@/utils/supabase/client';
+import { useToast } from '@/components/ui/ToastProvider';
 
 interface QRCardProps {
     code_id: string;
@@ -15,6 +16,7 @@ interface QRCardProps {
 export default function QRCard({ code_id, qr_image, title, description }: QRCardProps) {
     const supabase = createClient();
     const [showAlert, setShowAlert] = useState(false);
+    const { showToast } = useToast();
 
     const handleDeleteClick = () => {
         setShowAlert(true);
@@ -29,7 +31,7 @@ export default function QRCard({ code_id, qr_image, title, description }: QRCard
             .select();
 
         if (error) {
-            alert("Error deleting QR code: " + error.message)
+            showToast("Error deleting code", "error");
         } else {
             setShowAlert(false);
         }

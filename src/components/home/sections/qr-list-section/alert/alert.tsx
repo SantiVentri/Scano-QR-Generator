@@ -16,8 +16,8 @@ export default function Alert({
     onConfirm,
     title,
     message,
-    confirmText = "Eliminar",
-    cancelText = "Cancelar"
+    confirmText = "Delete",
+    cancelText = "Cancel"
 }: AlertProps) {
     if (!isOpen) return null;
 
