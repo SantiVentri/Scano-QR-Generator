@@ -28,6 +28,32 @@
     gap: 25px;
 }
 
+.pages {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.pageButton {
+    background: transparent;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pageButton:hover {
+    background-color: #3454d1;
+    color: white;
+    border-color: #3454d1;
+}
+
+.active {
+    background-color: #3454d1;
+    color: white;
+    border-color: #3454d1;
+}
+
 @media (max-width: 1500px) and (min-width: 781px) {
     .grid {
         grid-template-columns: repeat(2, 1fr);

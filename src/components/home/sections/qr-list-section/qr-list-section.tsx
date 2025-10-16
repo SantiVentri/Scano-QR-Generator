@@ -16,32 +16,45 @@ export default function QRListSection() {
     const supabase = createClient();
     const [codes, setCodes] = useState<QRProps[]>([]);
     const [search, setSearch] = useState("");
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const itemsPerPage = 9;
 
     const fetchCodes = async () => {
         const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError || !user) return setCodes([]);
 
-        if (userError || !user) {
-            setCodes([]);
-            return;
-        }
+        // Calculate total entries for pagination
+        const { count } = await supabase
+            .from("qr_codes")
+            .select("*", { count: "exact", head: true })
+            .eq("user_id", user.id)
+            .ilike("title", `%${search}%`);
+
+        if (count) setTotalPages(Math.ceil(count / itemsPerPage));
+
+        // Calculate range from current page
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage - 1;
 
         const { data, error } = await supabase
             .from("qr_codes")
             .select()
             .eq("user_id", user.id)
             .ilike("title", `%${search}%`)
-            .limit(9)
+            .range(start, end);
 
-        if (!error) {
-            setCodes(data)
-        } else {
-            setCodes([])
-        }
-    }
+        if (!error) setCodes(data);
+        else setCodes([]);
+    };
 
     useEffect(() => {
         fetchCodes();
-    }, [codes])
+    }, [search, codes, page]);
+
+    const handlePageChange = (num: number) => {
+        setPage(num);
+    };
 
     return (
         <section className={styles.section}>
@@ -51,11 +64,14 @@ export default function QRListSection() {
                     type="search"
                     placeholder="Search"
                     value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={(e) => {
+                        setSearch(e.target.value);
+                        setPage(1); // Resets after search
+                    }}
                 />
             </div>
 
-            {codes.length == 0 ? (
+            {codes.length === 0 ? (
                 <p>No codes found</p>
             ) : (
                 <div className={styles.grid}>
@@ -64,6 +80,18 @@ export default function QRListSection() {
                     ))}
                 </div>
             )}
-        </section >
-    )
+
+            <div className={styles.pages}>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(num => (
+                    <button
+                        key={num}
+                        onClick={() => handlePageChange(num)}
+                        className={`${styles.pageButton} ${page === num ? styles.active : ""}`}
+                    >
+                        {num}
+                    </button>
+                ))}
+            </div>
+        </section>
+    );
 }
