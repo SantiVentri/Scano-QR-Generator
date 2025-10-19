@@ -1,37 +1,52 @@
 'use client'
 
+// Styles
+import styles from "./forms.module.css";
+
+// Components
 import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
-import styles from "./forms.module.css";
+import { redirect } from "next/navigation";
 
 export default function SignupForm() {
     const supabase = createClient();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isPasswordVisible, setPasswordVisible] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [success, setSuccess] = useState(false);
 
     const signup = async (e: React.FormEvent) => {
         e.preventDefault();
-        await supabase.auth.signUp({
+        setIsLoading(true);
+        const { error } = await supabase.auth.signUp({
             email,
             password,
             options: {
-                data: { username },
+                data: {
+                    display_name: username,
+                },
             },
         });
+
+        setIsLoading(false);
+        if (error) {
+            setErrorMessage(error.message);
+        } else {
+            setSuccess(true);
+            setTimeout(() => {
+                redirect("/login")
+            }, 2000);
+        }
     };
 
     return (
-        <form onSubmit={signup}>
-            <div className={styles.titles}>
-                <h1>Create your free Scano account</h1>
-                <h2>Start generating, customizing, and sharing QR codes instantly.</h2>
-            </div>
-
+        <form onSubmit={signup} className={styles.form}>
             <div className={styles.formContainer}>
                 {/* Username */}
                 <div className={styles.inputContainer}>
@@ -41,7 +56,10 @@ export default function SignupForm() {
                         id="username"
                         placeholder="John"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => {
+                            setUsername(e.target.value),
+                                setErrorMessage("");
+                        }}
                         autoCapitalize="none"
                         required
                     />
@@ -55,7 +73,10 @@ export default function SignupForm() {
                         id="email"
                         placeholder="johndoe@example.com"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => {
+                            setEmail(e.target.value),
+                                setErrorMessage("");
+                        }}
                         autoComplete="email"
                         required
                     />
@@ -84,8 +105,10 @@ export default function SignupForm() {
                     </div>
                 </div>
 
+                {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
+
                 <button type="submit" className={styles.submitButton}>
-                    Sign up
+                    {isLoading ? "Signing up..." : "Sign Up"}
                 </button>
             </div>
 

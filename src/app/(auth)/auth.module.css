@@ -1,0 +1,51 @@
+.page {
+    display: flex;
+    min-height: 100vh;
+}
+
+.page aside {
+    background-color: var(--PrimaryColor);
+    width: 100%;
+}
+
+.page .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px;
+    width: 100%;
+    gap: 30px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.header .icon {
+    background-color: #3453d164;
+    border-radius: 60px;
+    height: 60px;
+    width: 60px;
+}
+
+.header .titles {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.header h1 {
+    font-size: 30px;
+}
+
+.header h2 {
+    color: rgb(88, 88, 88);
+    font-size: 18px;
+    font-weight: 500;
+    width: 100%;
+}
