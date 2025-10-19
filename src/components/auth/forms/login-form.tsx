@@ -9,6 +9,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { redirect } from "next/navigation";
+import Alert from "@/components/ui/alerts/alert";
 
 export default function LoginForm() {
     const supabase = createClient();
@@ -38,61 +39,68 @@ export default function LoginForm() {
 
     return (
         <form onSubmit={login} className={styles.form}>
-            <div className={styles.formContainer}>
-                {/* Email */}
-                <div className={styles.inputContainer}>
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="johndoe@example.com"
-                        value={email}
-                        onChange={(e) => {
-                            setEmail(e.target.value),
-                                setErrorMessage("");
-                        }}
-                        autoComplete="email"
-                        required
-                    />
-                    <Link href="/forgot-password" className={styles.forgotPasswordLink}>
-                        Forgot password?
-                    </Link>
-                </div>
-
-                {/* Password */}
-                <div className={`${styles.inputContainer} ${styles.passwordContainer}`}>
-                    <label htmlFor="password">Password</label>
-                    <div className={styles.passwordWrapper}>
-                        <input
-                            type={isPasswordVisible ? "text" : "password"}
-                            id="password"
-                            placeholder={isPasswordVisible ? "John123+" : "••••••••"}
-                            value={password}
-                            onChange={(e) => {
-                                setPassword(e.target.value),
-                                    setErrorMessage("");
-                            }}
-                            required
-                        />
-                        <button
-                            type="button"
-                            className={styles.togglePassword}
-                            aria-label={isPasswordVisible ? "Hide password" : "Show password"}
-                            onClick={() => setPasswordVisible(!isPasswordVisible)}
-                        >
-                            {isPasswordVisible ? <EyeOff /> : <Eye />}
-                        </button>
-                    </div>
-                </div>
-
-                {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
-
-                <button type="submit" className={styles.submitButton}>
-                    {isLoading ? "Logging in..." : "Log In"}
-                </button>
+            {/* Email */}
+            <div className={styles.inputContainer}>
+                <label htmlFor="email">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="johndoe@example.com"
+                    value={email}
+                    onChange={(e) => {
+                        setEmail(e.target.value),
+                            setErrorMessage("");
+                    }}
+                    autoComplete="email"
+                    disabled={isLoading || success}
+                    required
+                />
+                <Link href="/forgot-password" className={styles.forgotPasswordLink}>
+                    Forgot password?
+                </Link>
             </div>
 
-            <Link href="/signup" className={styles.signupLink}>
+            {/* Password */}
+            <div className={`${styles.inputContainer} ${styles.passwordContainer}`}>
+                <label htmlFor="password">Password</label>
+                <div className={styles.passwordWrapper}>
+                    <input
+                        type={isPasswordVisible ? "text" : "password"}
+                        id="password"
+                        placeholder={isPasswordVisible ? "John123+" : "••••••••"}
+                        value={password}
+                        onChange={(e) => {
+                            setPassword(e.target.value),
+                                setErrorMessage("");
+                        }}
+                        disabled={isLoading || success}
+                        required
+                    />
+                    <button
+                        type="button"
+                        className={styles.togglePassword}
+                        aria-label={isPasswordVisible ? "Hide password" : "Show password"}
+                        onClick={() => setPasswordVisible(!isPasswordVisible)}
+                        disabled={isLoading || success}
+                    >
+                        {isPasswordVisible ? <EyeOff /> : <Eye />}
+                    </button>
+                </div>
+            </div>
+
+            {errorMessage && <Alert type="error" text={errorMessage} />}
+
+            {success && <Alert type="success" text="Successfull login! Redirecting now..." />}
+
+            <button
+                type="submit"
+                className={styles.submitButton}
+                disabled={isLoading || success}
+            >
+                {isLoading ? "Logging in..." : "Log In"}
+            </button>
+
+            <Link href="/signup" className={styles.insteadLink}>
                 Don’t have an account? Sign up instead
             </Link>
         </form>

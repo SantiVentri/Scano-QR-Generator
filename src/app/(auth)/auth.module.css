@@ -36,7 +36,6 @@
 .header .titles {
     display: flex;
     flex-direction: column;
-    gap: 5px;
 }
 
 .header h1 {
@@ -47,5 +46,6 @@
     color: rgb(88, 88, 88);
     font-size: 18px;
     font-weight: 500;
+    line-height: 1.4;
     width: 100%;
 }

@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import { redirect } from "next/navigation";
+import Alert from "@/components/ui/alerts/alert";
 
 export default function SignupForm() {
     const supabase = createClient();
@@ -47,74 +48,85 @@ export default function SignupForm() {
 
     return (
         <form onSubmit={signup} className={styles.form}>
-            <div className={styles.formContainer}>
-                {/* Username */}
-                <div className={styles.inputContainer}>
-                    <label htmlFor="username">Username</label>
-                    <input
-                        type="text"
-                        id="username"
-                        placeholder="John"
-                        value={username}
-                        onChange={(e) => {
-                            setUsername(e.target.value),
-                                setErrorMessage("");
-                        }}
-                        autoCapitalize="none"
-                        required
-                    />
-                </div>
-
-                {/* Email */}
-                <div className={styles.inputContainer}>
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="johndoe@example.com"
-                        value={email}
-                        onChange={(e) => {
-                            setEmail(e.target.value),
-                                setErrorMessage("");
-                        }}
-                        autoComplete="email"
-                        required
-                    />
-                </div>
-
-                {/* Password */}
-                <div className={`${styles.inputContainer} ${styles.passwordContainer}`}>
-                    <label htmlFor="password">Password</label>
-                    <div className={styles.passwordWrapper}>
-                        <input
-                            type={isPasswordVisible ? "text" : "password"}
-                            id="password"
-                            placeholder={isPasswordVisible ? "John123+" : "••••••••"}
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                        <button
-                            type="button"
-                            className={styles.togglePassword}
-                            aria-label={isPasswordVisible ? "Hide password" : "Show password"}
-                            onClick={() => setPasswordVisible(!isPasswordVisible)}
-                        >
-                            {isPasswordVisible ? <EyeOff /> : <Eye />}
-                        </button>
-                    </div>
-                </div>
-
-                {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
-
-                <button type="submit" className={styles.submitButton}>
-                    {isLoading ? "Signing up..." : "Sign Up"}
-                </button>
+            {/* Username */}
+            <div className={styles.inputContainer}>
+                <label htmlFor="username">Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="John"
+                    value={username}
+                    onChange={(e) => {
+                        setUsername(e.target.value),
+                            setErrorMessage("");
+                    }}
+                    autoCapitalize="none"
+                    disabled={isLoading || success}
+                    required
+                />
             </div>
 
-            <Link href="/login" className={styles.loginLink}>
+            {/* Email */}
+            <div className={styles.inputContainer}>
+                <label htmlFor="email">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="johndoe@example.com"
+                    value={email}
+                    onChange={(e) => {
+                        setEmail(e.target.value),
+                            setErrorMessage("");
+                    }}
+                    autoComplete="email"
+                    disabled={isLoading || success}
+                    required
+                />
+            </div>
+
+            {/* Password */}
+            <div className={`${styles.inputContainer} ${styles.passwordContainer}`}>
+                <label htmlFor="password">Password</label>
+                <div className={styles.passwordWrapper}>
+                    <input
+                        type={isPasswordVisible ? "text" : "password"}
+                        id="password"
+                        placeholder={isPasswordVisible ? "John123+" : "••••••••"}
+                        value={password}
+                        onChange={(e) => {
+                            setPassword(e.target.value),
+                                setErrorMessage("");
+                        }}
+                        disabled={isLoading || success}
+                        required
+                    />
+                    <button
+                        type="button"
+                        className={styles.togglePassword}
+                        aria-label={isPasswordVisible ? "Hide password" : "Show password"}
+                        onClick={() => setPasswordVisible(!isPasswordVisible)}
+                        disabled={isLoading || success}
+                    >
+                        {isPasswordVisible ? <EyeOff /> : <Eye />}
+                    </button>
+                </div>
+            </div>
+
+            {errorMessage && <Alert type="error" text={errorMessage} />}
+            {success && <Alert type="success" text="Successfull signup! Check your inbox." />}
+
+            <button
+                type="submit"
+                className={styles.submitButton}
+                disabled={isLoading || success}
+            >
+                {isLoading ? "Signing up..." : "Sign Up"}
+            </button>
+
+            <Link href="/login" className={styles.insteadLink}>
                 Already have an account? Log in instead
             </Link>
-        </form>
+
+        </form >
     );
 }
