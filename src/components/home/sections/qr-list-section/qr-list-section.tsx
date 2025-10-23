@@ -74,24 +74,26 @@ export default function QRListSection() {
             {codes.length === 0 ? (
                 <p>No codes found</p>
             ) : (
-                <div className={styles.grid}>
-                    {codes.map((item, idx) => (
-                        <QRCard key={idx} {...item} />
-                    ))}
+                <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                    <div className={styles.grid}>
+                        {codes.map((item, idx) => (
+                            <QRCard key={idx} {...item} />
+                        ))}
+                    </div>
+                    <div className={styles.pages}>
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(num => (
+                            <button
+                                key={num}
+                                onClick={() => handlePageChange(num)}
+                                className={`${styles.pageButton} ${page === num ? styles.active : ""}`}
+                            >
+                                {num}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             )}
 
-            <div className={styles.pages}>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(num => (
-                    <button
-                        key={num}
-                        onClick={() => handlePageChange(num)}
-                        className={`${styles.pageButton} ${page === num ? styles.active : ""}`}
-                    >
-                        {num}
-                    </button>
-                ))}
-            </div>
         </section>
     );
 }
