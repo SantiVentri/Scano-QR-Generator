@@ -1,9 +1,17 @@
 .section {
     display: flex;
-    flex-direction: column;
     background-color: white;
     border-radius: 20px;
     padding: 30px;
     width: 100%;
+}
+
+.section .container, .section aside {
+    flex: 1;
+}
+
+.section .container {
+    display: flex;
+    flex-direction: column;
     gap: 20px;
 }
