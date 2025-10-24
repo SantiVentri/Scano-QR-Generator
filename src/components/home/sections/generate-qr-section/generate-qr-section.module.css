@@ -1,17 +1,42 @@
 .section {
     display: flex;
+    justify-content: space-between;
     background-color: white;
     border-radius: 20px;
     padding: 30px;
     width: 100%;
+    gap: 40px;
 }
 
-.section .container, .section aside {
+.container {
     flex: 1;
-}
-
-.section .container {
     display: flex;
     flex-direction: column;
+    width: 100%;
     gap: 20px;
+}
+
+.previewAside {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 550px;
+    width: 100%;
+    gap: 20px;
+}
+
+.previewAside h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--PrimaryColor);
+}
+
+@media (max-width: 768px) {
+    .section {
+        flex-direction: column;
+    }
+
+    .container {
+        max-width: 100%;
+    }
 }
