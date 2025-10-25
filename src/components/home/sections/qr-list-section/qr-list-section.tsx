@@ -50,7 +50,7 @@ export default function QRListSection() {
 
     useEffect(() => {
         fetchCodes();
-    }, [search, codes, page]);
+    }, [search, codes, page, fetchCodes]);
 
     const handlePageChange = (num: number) => {
         setPage(num);

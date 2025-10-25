@@ -16,7 +16,6 @@ interface GenerateQRFormProps {
 }
 
 export default function GenerateQRForm({ setQRImage, setIsLoading }: GenerateQRFormProps) {
-    const supabase = createClient();
     const [selectedType, setSelectedType] = useState<'link' | 'text' | 'email' | 'wifi'>('link');
     const [isLoading, setIsLoadingLocal] = useState(false);
 

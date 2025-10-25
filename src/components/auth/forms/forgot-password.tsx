@@ -40,8 +40,8 @@ export default function ForgotPasswordForm() {
                     placeholder="johndoe@example.com"
                     value={email}
                     onChange={(e) => {
-                        setEmail(e.target.value),
-                            setErrorMessage("");
+                        setEmail(e.target.value);
+                        setErrorMessage("");
                     }}
                     autoComplete="email"
                     disabled={isLoading || success}

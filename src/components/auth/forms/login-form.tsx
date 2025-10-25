@@ -48,8 +48,8 @@ export default function LoginForm() {
                     placeholder="johndoe@example.com"
                     value={email}
                     onChange={(e) => {
-                        setEmail(e.target.value),
-                            setErrorMessage("");
+                        setEmail(e.target.value);
+                        setErrorMessage("");
                     }}
                     autoComplete="email"
                     disabled={isLoading || success}
@@ -70,8 +70,8 @@ export default function LoginForm() {
                         placeholder={isPasswordVisible ? "John123+" : "••••••••"}
                         value={password}
                         onChange={(e) => {
-                            setPassword(e.target.value),
-                                setErrorMessage("");
+                            setPassword(e.target.value);
+                            setErrorMessage("");
                         }}
                         disabled={isLoading || success}
                         required

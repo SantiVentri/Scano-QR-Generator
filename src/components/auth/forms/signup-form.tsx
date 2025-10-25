@@ -57,8 +57,8 @@ export default function SignupForm() {
                     placeholder="John"
                     value={username}
                     onChange={(e) => {
-                        setUsername(e.target.value),
-                            setErrorMessage("");
+                        setUsername(e.target.value);
+                        setErrorMessage("");
                     }}
                     autoCapitalize="none"
                     disabled={isLoading || success}
@@ -75,8 +75,8 @@ export default function SignupForm() {
                     placeholder="johndoe@example.com"
                     value={email}
                     onChange={(e) => {
-                        setEmail(e.target.value),
-                            setErrorMessage("");
+                        setEmail(e.target.value);
+                        setErrorMessage("");
                     }}
                     autoComplete="email"
                     disabled={isLoading || success}
@@ -94,8 +94,8 @@ export default function SignupForm() {
                         placeholder={isPasswordVisible ? "John123+" : "••••••••"}
                         value={password}
                         onChange={(e) => {
-                            setPassword(e.target.value),
-                                setErrorMessage("");
+                            setPassword(e.target.value);
+                            setErrorMessage("");
                         }}
                         disabled={isLoading || success}
                         required
