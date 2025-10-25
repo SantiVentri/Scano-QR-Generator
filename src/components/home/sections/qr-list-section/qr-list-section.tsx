@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from './qr-list-section.module.css';
 import { createClient } from '@/utils/supabase/client';
 import QRCard from './card/card';
@@ -20,7 +20,7 @@ export default function QRListSection() {
     const [totalPages, setTotalPages] = useState(1);
     const itemsPerPage = 9;
 
-    const fetchCodes = async () => {
+    const fetchCodes = useCallback(async () => {
         const { data: { user }, error: userError } = await supabase.auth.getUser();
         if (userError || !user) return setCodes([]);
 
@@ -46,11 +46,11 @@ export default function QRListSection() {
 
         if (!error) setCodes(data);
         else setCodes([]);
-    };
+    }, [search, page, supabase]);
 
     useEffect(() => {
         fetchCodes();
-    }, [search, codes, page, fetchCodes]);
+    }, [fetchCodes]);
 
     const handlePageChange = (num: number) => {
         setPage(num);
