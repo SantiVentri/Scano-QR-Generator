@@ -38,6 +38,20 @@ export default function GenerateQRForm({ setQRImage, setIsLoading }: GenerateQRF
                 throw new Error('User not authenticated');
             }
 
+            // Check if user has reached the limit of 6 QR codes
+            const { data: existingQRs, error: countError } = await supabase
+                .from('qr_codes')
+                .select('code_id')
+                .eq('user_id', user.id);
+
+            if (countError) {
+                throw new Error('Failed to check existing QR codes: ' + countError.message);
+            }
+
+            if (existingQRs && existingQRs.length >= 6) {
+                throw new Error('You have reached the maximum limit of 6 QR codes. Please delete some existing codes to create new ones.');
+            }
+
             const qrTitle = formData.get('qr-title') as string;
 
             switch (selectedType) {
