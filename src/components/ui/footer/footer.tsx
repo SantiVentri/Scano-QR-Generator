@@ -31,7 +31,7 @@ export default function Footer() {
             <div className={styles.footerEnd}>
                 <p>Designed and developed by Santino Ventrice</p>
                 <div>
-                    <p>Version 0.1</p>
+                    <p>Version 1.0</p>
                 </div>
             </div>
         </footer>
