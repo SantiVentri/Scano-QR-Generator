@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import styles from './qr-list-section.module.css';
 import { createClient } from '@/utils/supabase/client';
 import QRCard from './card/card';
+import { RefreshCcw } from 'lucide-react';
 
 interface QRProps {
     code_id: string;
@@ -14,6 +15,9 @@ interface QRProps {
 
 export default function QRListSection() {
     const supabase = createClient();
+
+    // States
+    const [isLoading, setIsLoading] = useState(false);
     const [codes, setCodes] = useState<QRProps[]>([]);
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
@@ -21,6 +25,7 @@ export default function QRListSection() {
     const itemsPerPage = 9;
 
     const fetchCodes = useCallback(async () => {
+        setIsLoading(true);
         const { data: { user }, error: userError } = await supabase.auth.getUser();
         if (userError || !user) return setCodes([]);
 
@@ -46,6 +51,7 @@ export default function QRListSection() {
 
         if (!error) setCodes(data);
         else setCodes([]);
+        setIsLoading(false);
     }, [search, page, supabase]);
 
     useEffect(() => {
@@ -60,19 +66,29 @@ export default function QRListSection() {
         <section className={styles.section}>
             <div className={styles.header}>
                 <h1>QR Codes Generated</h1>
-                <input
-                    type="search"
-                    placeholder="Search"
-                    value={search}
-                    onChange={(e) => {
-                        setSearch(e.target.value);
-                        setPage(1); // Resets after search
-                    }}
-                />
+                <div className={styles.options}>
+                    <button
+                        type="button"
+                        onClick={fetchCodes}
+                        className={styles.refreshButton}
+                        disabled={isLoading}
+                    >
+                        <RefreshCcw size={20} color='gray' className={styles.refreshIcon} />
+                    </button>
+                    <input
+                        type="search"
+                        placeholder="Search"
+                        value={search}
+                        onChange={(e) => {
+                            setSearch(e.target.value);
+                            setPage(1); // Resets after search
+                        }}
+                    />
+                </div>
             </div>
 
             {codes.length === 0 ? (
-                <p>No codes found</p>
+                isLoading ? <p>Loading...</p> : <p>No codes found</p>
             ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
                     <div className={styles.grid}>
@@ -86,6 +102,7 @@ export default function QRListSection() {
                                 key={num}
                                 onClick={() => handlePageChange(num)}
                                 className={`${styles.pageButton} ${page === num ? styles.active : ""}`}
+                                disabled={page === num}
                             >
                                 {num}
                             </button>

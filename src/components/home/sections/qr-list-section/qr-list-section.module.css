@@ -15,7 +15,44 @@
     gap: 20px;
 }
 
-.header input[type="search"] {
+.options {
+    display: flex;
+    gap: 15px;
+}
+
+.refreshButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 2px solid gray;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.refreshButton:disabled {
+    background-color: #efefef;
+    cursor: wait;
+}
+
+.refreshIcon {
+    height: 20px;
+    width: 20px;
+}
+
+.refreshButton:disabled .refreshIcon {
+    animation: refresh 0.8s linear infinite;
+}
+
+@keyframes refresh {
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+.options input[type="search"] {
     border: 2px solid gray;
     border-radius: 8px;
     padding: 10px 14px;
