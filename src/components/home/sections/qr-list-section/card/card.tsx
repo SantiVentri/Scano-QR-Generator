@@ -33,6 +33,7 @@ export default function QRCard({ code_id, qr_image, title }: QRCardProps) {
             showToast("Error deleting code", "error");
         } else {
             setShowAlert(false);
+            showToast("Code deleted successfully", "success");
         }
     };
 

@@ -1,6 +1,7 @@
 "use client"
 
 import { createClient } from '@/utils/supabase/client';
+import { useToast } from '@/components/ui/ToastProvider';
 // Styles
 import styles from './genereate-qr-form.module.css';
 
@@ -18,6 +19,7 @@ interface GenerateQRFormProps {
 export default function GenerateQRForm({ setQRImage, setIsLoading }: GenerateQRFormProps) {
     const [selectedType, setSelectedType] = useState<'link' | 'text' | 'email' | 'wifi'>('link');
     const [isLoading, setIsLoadingLocal] = useState(false);
+    const { showToast } = useToast();
 
     const generateQR = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -118,11 +120,15 @@ export default function GenerateQRForm({ setQRImage, setIsLoading }: GenerateQRF
             const imageUrl = URL.createObjectURL(blob);
             setQRImage(imageUrl);
 
+            // Show success toast
+            showToast('QR code generated successfully!', 'success');
+
         } catch (error) {
             console.error('Error generating QR code:', error);
             setQRImage(null);
-            // You could add a toast notification here to show the error to the user
-            alert(error instanceof Error ? error.message : 'An error occurred while generating the QR code');
+            // Show error toast
+            const errorMessage = error instanceof Error ? error.message : 'An error occurred while generating the QR code';
+            showToast(errorMessage, 'error');
         } finally {
             setIsLoading(false);
             setIsLoadingLocal(false);
