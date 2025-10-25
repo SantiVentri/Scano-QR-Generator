@@ -10,10 +10,9 @@ interface QRCardProps {
     code_id: string;
     qr_image: string;
     title: string;
-    description: string;
 }
 
-export default function QRCard({ code_id, qr_image, title, description }: QRCardProps) {
+export default function QRCard({ code_id, qr_image, title }: QRCardProps) {
     const supabase = createClient();
     const [showAlert, setShowAlert] = useState(false);
     const { showToast } = useToast();
@@ -50,10 +49,7 @@ export default function QRCard({ code_id, qr_image, title, description }: QRCard
             ) : <div style={{ height: 140, width: 140, backgroundColor: "#3454d1" }} />}
 
             <div className={styles.container}>
-                <div className={styles.titles}>
-                    <h1>{title}</h1>
-                    <p>{description}</p>
-                </div>
+                <h1>{title}</h1>
                 <div className={styles.buttons}>
                     <button type="button" className={styles.downloadButton} onClick={(e) => {
                         e.preventDefault();
