@@ -88,7 +88,7 @@ export default function QRListSection() {
             </div>
 
             {codes.length === 0 ? (
-                isLoading ? <p>Loading...</p> : <p>No codes found</p>
+                isLoading ? <Skeleton /> : <p>No codes found</p>
             ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
                     <div className={styles.grid}>
@@ -113,4 +113,20 @@ export default function QRListSection() {
 
         </section>
     );
+}
+
+function Skeleton() {
+    return (
+        <div className={styles.skeletonContainer}>
+            {Array.from({ length: 9 }).map((_, idx) => (
+                <div key={idx} className={styles.skeletonCard}>
+                    <div className={styles.skeletonImage} />
+                    <div className={styles.skeletonText}>
+                        <div className={styles.skeletonLine} />
+                        <div className={styles.skeletonLine} />
+                    </div>
+                </div>
+            ))}
+        </div>
+    )
 }
