@@ -1,0 +1,41 @@
+.footer {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background-color: var(--PrimaryColor);
+    color: white;
+    padding: 20px 40px;
+}
+
+.footerContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footerContainer .titles {
+    display: flex;
+    flex-direction: column;
+}
+
+.footerContainer .titles h2 {
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.footerContainer nav {
+    display: flex;
+    gap: 20px;
+}
+
+.footerEnd {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+@media (max-width: 700px) {
+    .footerContainer {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
