@@ -20,19 +20,6 @@ export default function GenerateQRForm({ setQRImage, setIsLoading }: GenerateQRF
     const [selectedType, setSelectedType] = useState<'link' | 'text' | 'email' | 'wifi'>('link');
     const [isLoading, setIsLoadingLocal] = useState(false);
 
-    const saveQR = async () => {
-        const { data: { user } } = await supabase.auth.getUser();
-
-        const { data, error } = await supabase
-            .from('qr_codes')
-            .insert([
-                {
-                    user_id: user?.id,
-                    title: {},
-                },
-            ]);
-    }
-
     const generateQR = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
@@ -42,6 +29,16 @@ export default function GenerateQRForm({ setQRImage, setIsLoading }: GenerateQRF
         let qrData = '';
 
         try {
+            const supabase = createClient();
+
+            // Get current user
+            const { data: { user }, error: userError } = await supabase.auth.getUser();
+            if (userError || !user) {
+                throw new Error('User not authenticated');
+            }
+
+            const qrTitle = formData.get('qr-title') as string;
+
             switch (selectedType) {
                 case 'link':
                     qrData = formData.get('link-url') as string;
@@ -65,8 +62,7 @@ export default function GenerateQRForm({ setQRImage, setIsLoading }: GenerateQRF
                 }
             }
 
-            // Aquí irá la llamada a la API para generar el QR
-            // Por ahora usaremos una API pública para demo
+            // Generate QR code image
             const foregroundColor = (formData.get('foreground-color') as string).substring(1);
             const backgroundColor = (formData.get('background-color') as string).substring(1);
 
@@ -75,11 +71,59 @@ export default function GenerateQRForm({ setQRImage, setIsLoading }: GenerateQRF
             if (!response.ok) throw new Error('Failed to generate QR code');
 
             const blob = await response.blob();
+
+            // Insert new row in qr_codes table
+            const { data: qrRecord, error: insertError } = await supabase
+                .from('qr_codes')
+                .insert([
+                    {
+                        title: qrTitle,
+                        user_id: user.id
+                    }
+                ])
+                .select('code_id, title, user_id')
+                .single();
+
+            if (insertError || !qrRecord) throw new Error('Failed to create QR record: ' + (insertError?.message || 'No data returned'));
+
+            // Validate that we got a valid record with ID
+            if (!qrRecord.code_id) throw new Error('QR record created but no ID returned');
+
+            // Upload image to storage with the new path structure
+            const fileName = `${user.id}/${qrRecord.code_id}.jpg`;
+            const { error: uploadError } = await supabase.storage
+                .from('qr_images')
+                .upload(fileName, blob, {
+                    contentType: 'image/jpeg',
+                    upsert: true
+                });
+
+            if (uploadError) throw new Error('Failed to upload QR image: ' + uploadError.message);
+
+            // Update the qr_image field with the public URL
+            const qrImageUrl = `https://plnhwhgbeolwehpaexsx.supabase.co/storage/v1/object/public/qr_images/${fileName}`;
+
+            console.log('Updating QR record:', qrRecord.code_id, 'with URL:', qrImageUrl);
+
+            const { data: updateData, error: updateError } = await supabase
+                .from('qr_codes')
+                .update({ qr_image: qrImageUrl })
+                .eq('code_id', qrRecord.code_id)
+                .select();
+
+            console.log('Update result:', { updateData, updateError });
+
+            if (updateError) throw new Error('Failed to update QR image URL: ' + updateError.message);
+
+            // Display the generated QR code
             const imageUrl = URL.createObjectURL(blob);
             setQRImage(imageUrl);
+
         } catch (error) {
             console.error('Error generating QR code:', error);
             setQRImage(null);
+            // You could add a toast notification here to show the error to the user
+            alert(error instanceof Error ? error.message : 'An error occurred while generating the QR code');
         } finally {
             setIsLoading(false);
             setIsLoadingLocal(false);
