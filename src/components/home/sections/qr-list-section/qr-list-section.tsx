@@ -47,7 +47,8 @@ export default function QRListSection() {
             .select()
             .eq("user_id", user.id)
             .ilike("title", `%${search}%`)
-            .range(start, end);
+            .range(start, end)
+            .order('created_at', { ascending: true });
 
         if (!error) setCodes(data);
         else setCodes([]);
