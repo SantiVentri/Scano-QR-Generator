@@ -21,7 +21,7 @@ export default function ForgotPasswordPage() {
                     </div>
                     <div className={styles.titles}>
                         <h1 className={styles.title}>Forgot your password?</h1>
-                        <h2 className={styles.subtitle}>Enter your email address below and we&apos;ll send you instructions to reset your password.</h2>
+                        <h2 className={styles.subtitle}>Enter your email below and read the instructions to reset your password.</h2>
                     </div>
                 </div>
                 <ForgotPasswordForm />
