@@ -40,9 +40,15 @@ export default function SignupForm() {
             setErrorMessage(error.message);
         } else {
             setSuccess(true);
-            setTimeout(() => {
-                redirect("/login")
-            }, 2000);
+            const { error: signInError } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
+            if (signInError) {
+                setErrorMessage(signInError.message);
+            } else {
+                redirect("/");
+            }
         }
     };
 
@@ -113,7 +119,7 @@ export default function SignupForm() {
             </div>
 
             {errorMessage && <Alert type="error" text={errorMessage} />}
-            {success && <Alert type="success" text="Successfull signup! Check your inbox." />}
+            {success && <Alert type="success" text="Successfull signup! Redirecting...." />}
 
             <button
                 type="submit"
