@@ -4,7 +4,11 @@
 }
 
 .page aside {
-    background-color: var(--PrimaryColor);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: var(--PrimaryColor); */
+    background-color: white;
     width: 100%;
 }
 

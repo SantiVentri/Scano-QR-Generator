@@ -8,7 +8,14 @@ import SignupForm from '@/components/auth/forms/signup-form';
 export default function SignupPage() {
     return (
         <div className={styles.page}>
-            <aside></aside>
+            <aside>
+                <img
+                    src="/auth/people-qr-scan.png"
+                    height={550}
+                    alt="Auth Vector Image"
+                    draggable={false}
+                />
+            </aside>
             <div className={styles.container}>
                 <div className={styles.header}>
                     <div className={styles.icon}>
