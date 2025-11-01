@@ -29,9 +29,16 @@
 - **Smart pagination** (9 items per page)
 - **Deletion** of unwanted codes
 
+### Account Settings
+- **Change username**
+- **Change password**
+- **Sign out**
+- **Account deletion**
+
 ## Screenshots
-<img width="1918" height="868" alt="Scano-Screenshot" src="https://github.com/user-attachments/assets/adf2f937-1897-4c34-bbd5-907349c9d757" />
-<img width="1918" height="786" alt="Scano-Screenshot 2" src="https://github.com/user-attachments/assets/bf67fbcb-d18b-4eab-985a-a38266877469" />
+<img width="1919" height="817" alt="image" src="https://github.com/user-attachments/assets/d7749082-0a42-4951-be1d-23066d695b5a" />
+<img width="1838" height="501" alt="image" src="https://github.com/user-attachments/assets/4302149d-6a3f-4264-ae3c-f612705559b1" />
+<img width="1919" height="773" alt="image" src="https://github.com/user-attachments/assets/ae350379-6685-4449-8b78-3eb1286a2128" />
 
 
 ## Technologies Used
@@ -58,30 +65,36 @@
 
 ```
 src/
-├── app/                          # Next.js App Router
-│   ├── (auth)/                   # Authentication routes
-│   │   ├── login/                # Login page
-│   │   ├── signup/               # Registration page
-│   │   ├── forgot-password/      # Password recovery
-│   │   └── confirm/              # Email confirmation
-│   ├── (home)/                   # Protected main page
-│   └── error/                    # Error page
-├── components/                   # Reusable components
-│   ├── auth/                     # Authentication components
-│   │   ├── forms/                # Login/registration forms
-│   │   └── signout-button/       # Sign out button
-│   ├── home/                     # Main page components
-│   │   └── sections/             # Application sections
-│   │       ├── generate-qr-section/  # QR generation
-│   │       └── qr-list-section/      # QR list
-│   └── ui/                       # Generic UI components
-│       ├── alerts/               # Alerts and notifications
-│       ├── footer/               # Footer
-│       ├── nav/                  # Navigation
-│       └── ToastProvider.tsx     # Notification provider
-├── utils/                        # Utilities and configurations
-│   └── supabase/                 # Supabase configuration
-└── middleware.ts                 # Authentication middleware
+├─ app/
+│  ├─ (auth)/
+│  │  ├─ confirm/
+│  │  ├─ forgot-password/
+│  │  ├─ login/
+│  │  └─ signup/
+│  ├─ (home)/
+│  │  └─ account/
+│  └─ error/
+├─ components/
+│  ├─ auth/
+│  │  ├─ delete-account-button/
+│  │  ├─ forms/
+│  │  └─ signout-button/
+│  ├─ home/
+│  │  ├─ account/
+│  │  │  └─ settings-item/
+│  │  ├─ modal/
+│  │  └─ sections/
+│  │     ├─ generate-qr-section/
+│  │     │  ├─ form/
+│  │     │  └─ preview/
+│  │     └─ qr-list-section/
+│  │        └─ card/
+│  └─ ui/
+│     ├─ alerts/
+│     ├─ footer/
+│     └─ nav/
+└─ utils/
+   └─ supabase/
 ```
 
 ## Author
