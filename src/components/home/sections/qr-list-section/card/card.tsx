@@ -2,7 +2,7 @@ import Image from 'next/image';
 import styles from './card.module.css';
 import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import Alert from '../alert/alert';
+import Alert from '../../../modal/modal';
 import { createClient } from '@/utils/supabase/client';
 import { useToast } from '@/components/ui/ToastProvider';
 

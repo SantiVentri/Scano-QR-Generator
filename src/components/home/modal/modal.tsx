@@ -1,6 +1,6 @@
-import styles from './alert.module.css';
+import styles from './modal.module.css';
 
-interface AlertProps {
+interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     onConfirm: () => void;
@@ -10,7 +10,7 @@ interface AlertProps {
     cancelText?: string;
 }
 
-export default function Alert({
+export default function Modal({
     isOpen,
     onClose,
     onConfirm,
@@ -18,7 +18,7 @@ export default function Alert({
     message,
     confirmText = "Delete",
     cancelText = "Cancel"
-}: AlertProps) {
+}: ModalProps) {
     if (!isOpen) return null;
 
     const handleConfirm = () => {
