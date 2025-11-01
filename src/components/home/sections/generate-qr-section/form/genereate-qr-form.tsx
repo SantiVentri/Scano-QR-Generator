@@ -134,6 +134,15 @@ export default function GenerateQRForm({ setQRImage, setIsLoading }: GenerateQRF
             const imageUrl = URL.createObjectURL(blob);
             setQRImage(imageUrl);
 
+            // Notify other components (like the list) that a new QR was created
+            try {
+                if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('qr-created', { detail: { code_id: qrRecord.code_id } }));
+                }
+            } catch (e) {
+                // ignore dispatch errors in non-browser environments
+            }
+
             // Show success toast
             showToast('QR code generated successfully!', 'success');
 

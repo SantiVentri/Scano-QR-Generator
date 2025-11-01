@@ -59,6 +59,25 @@ export default function QRListSection() {
         fetchCodes();
     }, [fetchCodes]);
 
+    // Listen for created QR events from other components and refresh the list
+    useEffect(() => {
+        const handler = () => {
+            // reset to first page so new item is visible
+            setPage(1);
+            fetchCodes();
+        };
+
+        if (typeof window !== 'undefined') {
+            window.addEventListener('qr-created', handler as EventListener);
+        }
+
+        return () => {
+            if (typeof window !== 'undefined') {
+                window.removeEventListener('qr-created', handler as EventListener);
+            }
+        };
+    }, [fetchCodes]);
+
     const handlePageChange = (num: number) => {
         setPage(num);
     };
