@@ -1,6 +1,6 @@
-# Scano QR Generator v1.0
+# Scano QR Generator v1.0.1
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)
 ![Next.js](https://img.shields.io/badge/Next.js-15.5.4-black.svg)
 ![React](https://img.shields.io/badge/React-19.1.0-blue.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)
